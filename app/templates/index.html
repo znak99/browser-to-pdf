@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main class="shell">
+    <div class="ambient ambient-left"></div>
+    <div class="ambient ambient-right"></div>
+
+    <section class="hero">
+      <p class="eyebrow">browser-to-pdf</p>
+      <div class="hero-copy">
+        <h1>브라우저 렌더링으로 웹페이지를 PDF로 바로 저장합니다.</h1>
+        <p class="lede">
+          URL만 입력하면 FastAPI 서버가 Chromium을 실행해 페이지를 렌더링하고,
+          프린트 배경까지 포함한 PDF 파일로 내려줍니다.
+        </p>
+      </div>
+
+      <form class="download-form" method="post" action="/download">
+        <label class="field-label" for="target_url">대상 URL</label>
+        <div class="field-row">
+          <input
+            id="target_url"
+            name="target_url"
+            type="text"
+            inputmode="url"
+            placeholder="https://example.com"
+            value="{{ target_url }}"
+            autocomplete="off"
+            required
+          />
+          <button type="submit">PDF 다운로드</button>
+        </div>
+        <p class="hint">스킴이 없으면 자동으로 `https://`를 붙입니다.</p>
+        {% if error %}
+          <p class="error">{{ error }}</p>
+        {% endif %}
+      </form>
+    </section>
+
+    <section class="strip">
+      <div>
+        <p class="strip-label">Render Mode</p>
+        <strong>Playwright Chromium</strong>
+      </div>
+      <div>
+        <p class="strip-label">Response</p>
+        <strong>Direct attachment download</strong>
+      </div>
+      <div>
+        <p class="strip-label">Runtime</p>
+        <strong>FastAPI on Docker</strong>
+      </div>
+    </section>
+
+    <section class="details">
+      <div class="section-heading">
+        <p class="eyebrow">Why this shape</p>
+        <h2>동적 렌더링과 배포 일관성을 같이 잡는 구조입니다.</h2>
+      </div>
+
+      <div class="feature-grid">
+        {% for feature in features %}
+          <article class="feature">
+            <p class="feature-label">{{ feature.label }}</p>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.text }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="workflow">
+      <div class="section-heading">
+        <p class="eyebrow">Flow</p>
+        <h2>요청부터 다운로드까지</h2>
+      </div>
+
+      <ol>
+        {% for item in workflow %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ol>
+    </section>
+  </main>
+{% endblock %}
