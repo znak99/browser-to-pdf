@@ -2,48 +2,53 @@
 
 {% block content %}
   <main class="shell">
-    <div class="ambient ambient-left"></div>
-    <div class="ambient ambient-right"></div>
-
     <section class="hero">
-      <p class="eyebrow">browser-to-pdf</p>
-      <div class="hero-copy">
-        <h1>브라우저 렌더링으로 웹페이지를 PDF로 바로 저장합니다.</h1>
-        <p class="lede">
-          URL만 입력하면 FastAPI 서버가 Chromium을 실행해 페이지를 렌더링하고,
-          프린트 배경까지 포함한 PDF 파일로 내려줍니다.
-        </p>
-      </div>
-
-      <form class="download-form" method="post" action="/download">
-        <label class="field-label" for="target_url">대상 URL</label>
-        <div class="field-row">
-          <input
-            id="target_url"
-            name="target_url"
-            type="text"
-            inputmode="url"
-            placeholder="https://example.com"
-            value="{{ target_url }}"
-            autocomplete="off"
-            required
-          />
-          <button type="submit">PDF 다운로드</button>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">browser-to-pdf</p>
+          <p class="brand-subtitle">FastAPI · Playwright · Docker</p>
         </div>
-        <p class="hint">스킴이 없으면 자동으로 `https://`를 붙입니다.</p>
-        {% if error %}
-          <p class="error">{{ error }}</p>
-        {% endif %}
-      </form>
+        <p class="topbar-note">Web to PDF</p>
+      </header>
+
+      <div class="hero-panel">
+        <div class="hero-copy">
+          <h1>URL 하나로 웹페이지를 PDF로 저장합니다.</h1>
+          <p class="lede">
+            서버가 Chromium으로 페이지를 열고 바로 PDF 첨부 파일로 응답합니다.
+          </p>
+        </div>
+
+        <form class="download-form" method="post" action="/download">
+          <label class="field-label" for="target_url">대상 URL</label>
+          <div class="field-row">
+            <input
+              id="target_url"
+              name="target_url"
+              type="text"
+              inputmode="url"
+              placeholder="https://example.com"
+              value="{{ target_url }}"
+              autocomplete="off"
+              required
+            />
+            <button type="submit">PDF 다운로드</button>
+          </div>
+          <p class="hint">스킴이 없으면 자동으로 `https://`를 붙입니다.</p>
+          {% if error %}
+            <p class="error">{{ error }}</p>
+          {% endif %}
+        </form>
+      </div>
     </section>
 
     <section class="workflow">
       <div class="section-heading">
         <p class="eyebrow">Flow</p>
-        <h2>요청부터 다운로드까지</h2>
+        <h2>입력, 렌더링, 다운로드</h2>
       </div>
 
-      <ol>
+      <ol class="workflow-list">
         {% for item in workflow %}
           <li>{{ item }}</li>
         {% endfor %}
