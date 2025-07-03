@@ -1,6 +1,8 @@
 :root {
   --bg-top: #f8f3ff;
   --bg-bottom: #eee8ff;
+  --glow-left: rgba(179, 158, 255, 0.34);
+  --glow-right: rgba(220, 212, 255, 0.95);
   --panel: rgba(255, 255, 255, 0.48);
   --panel-strong: rgba(255, 255, 255, 0.62);
   --text: #261f35;
@@ -8,9 +10,42 @@
   --line: rgba(98, 83, 136, 0.16);
   --accent: #7a63d0;
   --accent-soft: rgba(122, 99, 208, 0.16);
+  --chip: rgba(255, 255, 255, 0.4);
+  --form-surface: rgba(252, 250, 255, 0.62);
+  --input-bg: rgba(255, 255, 255, 0.82);
+  --panel-border: rgba(255, 255, 255, 0.5);
+  --button-text: #fbfaff;
+  --button-start: #8c72ea;
+  --button-end: #6e58c8;
+  --workflow-surface: rgba(255, 255, 255, 0.34);
   --shadow: 0 24px 80px rgba(101, 83, 157, 0.16);
   --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
   --sans: "Aptos", "Segoe UI", "Noto Sans KR", sans-serif;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg-top: #0f0b1a;
+  --bg-bottom: #181127;
+  --glow-left: rgba(116, 92, 209, 0.38);
+  --glow-right: rgba(43, 34, 74, 0.92);
+  --panel: rgba(25, 19, 43, 0.58);
+  --panel-strong: rgba(31, 24, 52, 0.76);
+  --text: #f4efff;
+  --muted: rgba(244, 239, 255, 0.7);
+  --line: rgba(184, 167, 245, 0.18);
+  --accent: #c7b7ff;
+  --accent-soft: rgba(199, 183, 255, 0.16);
+  --chip: rgba(36, 28, 62, 0.62);
+  --form-surface: rgba(28, 22, 48, 0.68);
+  --input-bg: rgba(14, 11, 26, 0.58);
+  --panel-border: rgba(212, 203, 255, 0.12);
+  --button-text: #1a1329;
+  --button-start: #d6c7ff;
+  --button-end: #b9a6ff;
+  --workflow-surface: rgba(28, 22, 49, 0.46);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+  color-scheme: dark;
 }
 
 * {
@@ -23,10 +58,11 @@ body {
   min-height: 100%;
   color: var(--text);
   background:
-    radial-gradient(circle at 12% 18%, rgba(179, 158, 255, 0.34), transparent 26%),
-    radial-gradient(circle at 88% 14%, rgba(220, 212, 255, 0.95), transparent 24%),
+    radial-gradient(circle at 12% 18%, var(--glow-left), transparent 26%),
+    radial-gradient(circle at 88% 14%, var(--glow-right), transparent 24%),
     linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
   font-family: var(--sans);
+  transition: background 220ms ease, color 220ms ease;
 }
 
 body {
@@ -61,6 +97,12 @@ body {
   gap: 16px;
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .brand-subtitle,
 .topbar-note {
   margin: 6px 0 0;
@@ -72,8 +114,60 @@ body {
   padding: 10px 14px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--chip);
   backdrop-filter: blur(16px);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  transition: transform 180ms ease, background 220ms ease, border-color 220ms ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+}
+
+.theme-toggle:focus {
+  outline: 2px solid rgba(122, 99, 208, 0.22);
+  outline-offset: 2px;
+}
+
+.theme-toggle-track {
+  width: 46px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(122, 99, 208, 0.16);
+}
+
+.theme-toggle-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--button-start) 0%, var(--button-end) 100%);
+  box-shadow: 0 6px 16px rgba(77, 55, 150, 0.24);
+  transition: transform 180ms ease;
+}
+
+.theme-toggle[aria-pressed="true"] .theme-toggle-thumb {
+  transform: translateX(20px);
+}
+
+.theme-toggle-label {
+  font-size: 0.92rem;
+  color: var(--muted);
 }
 
 .eyebrow {
@@ -88,12 +182,13 @@ body {
   display: grid;
   gap: 28px;
   padding: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--panel-border);
   border-radius: 32px;
   background: linear-gradient(180deg, var(--panel-strong) 0%, var(--panel) 100%);
   backdrop-filter: blur(24px);
   box-shadow: var(--shadow);
   animation: fade-up 420ms ease both;
+  transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
 .hero-copy {
@@ -128,8 +223,9 @@ body {
   padding: 24px;
   border: 1px solid var(--line);
   border-radius: 24px;
-  background: rgba(252, 250, 255, 0.62);
+  background: var(--form-surface);
   backdrop-filter: blur(16px);
+  transition: background 220ms ease, border-color 220ms ease;
 }
 
 .field-label,
@@ -157,9 +253,10 @@ body {
   padding: 0 18px;
   border: 1px solid rgba(98, 83, 136, 0.14);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--input-bg);
   font: inherit;
   color: inherit;
+  transition: background 220ms ease, border-color 220ms ease;
 }
 
 .field-row input:focus,
@@ -173,8 +270,8 @@ body {
   padding: 0 22px;
   border: 0;
   border-radius: 18px;
-  background: linear-gradient(135deg, #8c72ea 0%, #6e58c8 100%);
-  color: #fbfaff;
+  background: linear-gradient(135deg, var(--button-start) 0%, var(--button-end) 100%);
+  color: var(--button-text);
   font: inherit;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -231,10 +328,11 @@ body {
   padding: 20px;
   border: 1px solid var(--line);
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.34);
+  background: var(--workflow-surface);
   backdrop-filter: blur(18px);
   line-height: 1.68;
   box-shadow: 0 10px 36px rgba(118, 99, 176, 0.08);
+  transition: background 220ms ease, border-color 220ms ease;
 }
 
 .workflow-list li::before {
@@ -272,6 +370,12 @@ body {
   .topbar {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .field-row {
