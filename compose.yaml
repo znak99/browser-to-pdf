@@ -1,0 +1,8 @@
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "8100:8100"
+    environment:
+      BROWSER_TO_PDF_TIMEOUT_MS: "45000"

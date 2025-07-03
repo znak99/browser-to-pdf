@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, Form, Request, status
-from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -14,24 +14,6 @@ from app.utils import build_download_filename, normalize_target_url
 
 BASE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
-
-FEATURES = [
-    {
-        "label": "Server-side",
-        "title": "FastAPI SSR 흐름",
-        "text": "입력 폼, 오류 메시지, 다운로드 응답을 모두 서버 렌더링으로 처리합니다.",
-    },
-    {
-        "label": "Chromium",
-        "title": "동적 페이지까지 렌더링",
-        "text": "Playwright Chromium이 실제 브라우저 환경으로 페이지를 연 뒤 PDF를 만듭니다.",
-    },
-    {
-        "label": "Container-ready",
-        "title": "Docker 중심 배포",
-        "text": "브라우저 의존성과 앱 실행을 컨테이너 안에서 일관되게 맞춥니다.",
-    },
-]
 
 WORKFLOW = [
     "URL을 입력하면 서버가 허용 스킴과 호스트를 먼저 검증합니다.",
@@ -64,7 +46,6 @@ def render_index(
         "request": request,
         "target_url": target_url,
         "error": error,
-        "features": FEATURES,
         "workflow": WORKFLOW,
     }
     return templates.TemplateResponse(
@@ -80,8 +61,8 @@ async def index(request: Request) -> HTMLResponse:
     return render_index(request)
 
 
-@app.post("/download")
-async def download_pdf(request: Request, target_url: str = Form(...)) -> HTMLResponse | StreamingResponse:
+@app.post("/download", response_model=None)
+async def download_pdf(request: Request, target_url: str = Form(...)) -> Response:
     try:
         normalized_url = normalize_target_url(target_url)
     except ValueError as exc:

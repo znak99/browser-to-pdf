@@ -65,8 +65,6 @@ body {
 }
 
 .hero,
-.strip,
-.details,
 .workflow {
   position: relative;
   z-index: 1;
@@ -191,35 +189,8 @@ body {
   font-weight: 600;
 }
 
-.strip {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  padding: 18px 0 28px;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-
-.strip div {
-  padding-right: 20px;
-}
-
-.strip-label {
-  margin-bottom: 6px;
-  font-size: 0.76rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.strip strong {
-  font-size: 1.05rem;
-  font-weight: 700;
-}
-
-.details,
 .workflow {
-  padding-top: 44px;
+  padding-top: 8px;
 }
 
 .section-heading {
@@ -231,36 +202,6 @@ body {
 .section-heading h2 {
   max-width: 760px;
   font-size: clamp(2rem, 4vw, 3.6rem);
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.feature {
-  padding: 18px 0 0;
-  border-top: 1px solid var(--line);
-}
-
-.feature-label {
-  margin-bottom: 12px;
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent-deep);
-}
-
-.feature h3 {
-  margin: 0 0 10px;
-  font-size: 1.2rem;
-}
-
-.feature p:last-child {
-  margin: 0;
-  line-height: 1.7;
-  color: var(--muted);
 }
 
 .workflow ol {
@@ -308,9 +249,7 @@ body {
     padding-top: 32px;
   }
 
-  .field-row,
-  .strip,
-  .feature-grid {
+  .field-row {
     grid-template-columns: 1fr;
   }
 
